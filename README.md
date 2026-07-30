@@ -75,31 +75,31 @@ Grafana(:3000) ── 1860 主机大屏
 > 将 `<YOUR_QQ_MAIL_AUTH_CODE>` 替换为你自己的 QQ 邮箱授权码即可。
 
 ## 📂 目录结构
-enterprise-monitoring/
-├── README.md ← 本文件
-├── .gitignore ← 拦截备份文件与真实密钥
-├── prometheus/
-│ ├── prometheus.yml ← 主配置（scrape 间隔、rules 加载路径）
-│ └── rules/
-│ ├── host_alerts.yml ← 五条告警规则
-│ └── placeholder.yml ← 空目录占位（避免 Prometheus 启动报 no rule files）
-├── alertmanager/
-│ └── alertmanager.yml.example ← 脱敏模板（授权码已替换为占位符）
-├── grafana/
-│ └── dashboards/
-│ └── host-dashboard.json ← 1860 主机大屏导出（可复现）
-├── systemd/
-│ ├── prometheus.service ← 四个服务均 enabled（开机自启）
-│ ├── node_exporter.service
-│ ├── alertmanager.service
-│ └── grafana-server.service
-├── selinux/
-│ ├── grafana-custom.te ← 自定义策略源文件
-│ ├── grafana-custom.pp ← 编译产物（semodule -i 可直接加载）
-│ └── booleans_status.txt ← 布尔值 + getenforce 状态快照
-├── docs/
-│ └── troubleshooting.md ← 排错实录（待补充）
-└── screenshots/ ← 告警邮件 + Grafana 大屏截图（简历视觉证据）
+
+- **README.md** — 本文件
+- **.gitignore** — 拦截备份文件与真实密钥
+- **prometheus/**
+  - `prometheus.yml` — 主配置（scrape 间隔、rules 加载路径）
+  - **rules/**
+    - `host_alerts.yml` — 五条告警规则
+    - `placeholder.yml` — 空目录占位（避免 Prometheus 启动报 no rule files）
+- **alertmanager/**
+  - `alertmanager.yml.example` — 脱敏模板（授权码已替换为占位符）
+- **grafana/**
+  - **dashboards/**
+    - `host-dashboard.json` — 1860 主机大屏导出（可复现）
+- **systemd/**
+  - `prometheus.service` — 四个服务均 enabled（开机自启）
+  - `node_exporter.service`
+  - `alertmanager.service`
+  - `grafana-server.service`
+- **selinux/**
+  - `grafana-custom.te` — 自定义策略源文件
+  - `grafana-custom.pp` — 编译产物（semodule -i 可直接加载）
+  - `booleans_status.txt` — 布尔值 + getenforce 状态快照
+- **docs/**
+  - `troubleshooting.md` — 排错实录（待补充）
+- **screenshots/** — 告警邮件 + Grafana 大屏截图（简历视觉证据）
 
 
 ## 🚀 快速部署
