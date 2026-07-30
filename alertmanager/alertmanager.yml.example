@@ -1,0 +1,23 @@
+global:
+  resolve_timeout: 5m
+  smtp_smarthost: 'smtp.qq.com:465'
+  smtp_from: '2977540167@qq.com'
+  smtp_auth_username: '2977540167@qq.com'
+  smtp_auth_password: "<YOUR_QQ_MAIL_AUTH_CODE>"
+  smtp_require_tls: false
+  smtp_hello: 'CentOS-Stream-9'
+
+route:
+  receiver: 'email-me'
+  group_by: ['alertname', 'instance']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+receivers:
+  - name: 'email-me'
+    email_configs:
+      - to: '2977540167@qq.com'
+        send_resolved: true
+        headers:
+          Subject: '[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }} @ {{ .CommonLabels.instance }}'

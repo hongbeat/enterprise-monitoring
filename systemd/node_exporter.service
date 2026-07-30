@@ -1,0 +1,21 @@
+[Unit]
+Description=Node Exporter - 主机指标采集器
+Documentation=https://prometheus.io/docs/guides/node-exporter/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=node_exporter
+Group=node_exporter
+ExecStart=/usr/local/bin/node_exporter \
+  --web.listen-address=:9100
+Restart=on-failure
+RestartSec=5
+# 安全加固：限制权限
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

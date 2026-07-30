@@ -1,0 +1,8 @@
+# 备份文件，不进仓库
+*.bak
+*.bak.*
+# 真实配置（含密钥），不进仓库；只进 .example 模板
+alertmanager/alertmanager.yml
+prometheus/prometheus.yml.local
+# 截图如果太大可以忽略，但建议保留（简历视觉证据）
+# screenshots/*.png

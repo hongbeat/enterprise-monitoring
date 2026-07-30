@@ -1,0 +1,43 @@
+groups:
+  - name: host_alerts
+    rules:
+      - alert: HostDown
+        expr: 'up{job="node"} == 0'
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: '主机 {{ $labels.instance }} 宕机'
+          description: '目标 {{ $labels.instance }} 已超过1分钟无法抓取，可能主机宕机或 node_exporter 停止。'
+      - alert: HostHighCpuLoad
+        expr: '100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: '主机 {{ $labels.instance }} CPU 负载过高'
+          description: 'CPU 使用率 > 80% 持续5分钟，当前 {{ $value | printf "%.1f" }}%。'
+      - alert: HostOutOfMemory
+        expr: '(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: '主机 {{ $labels.instance }} 内存不足'
+          description: '内存使用率 > 85% 持续5分钟，当前 {{ $value | printf "%.1f" }}%。'
+      - alert: HostOutOfDiskSpace
+        expr: '(1 - (node_filesystem_avail_bytes{mountpoint="/",fstype!~"tmpfs|overlay|squashfs"} / node_filesystem_size_bytes{mountpoint="/",fstype!~"tmpfs|overlay|squashfs"})) * 100 > 85'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: '主机 {{ $labels.instance }} 根分区空间不足'
+          description: '根分区 / 使用率 > 85% 持续5分钟，当前 {{ $value | printf "%.1f" }}%。'
+      - alert: HostSwapFillingUp
+        expr: '(node_memory_SwapTotal_bytes - node_memory_SwapFree_bytes) / node_memory_SwapTotal_bytes * 100 > 50'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: '主机 {{ $labels.instance }} Swap 使用过高'
+          description: 'Swap 使用率 > 50% 持续5分钟，当前 {{ $value | printf "%.1f" }}%。'

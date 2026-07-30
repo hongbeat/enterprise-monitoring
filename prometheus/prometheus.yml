@@ -1,0 +1,29 @@
+# ===== 全局配置 =====
+global:
+  scrape_interval: 15s        # 每15秒拉取一次指标
+  evaluation_interval: 15s    # 每15秒评估一次告警规则
+
+# ===== 告警规则文件（第四步再填内容，先占位）=====
+rule_files:
+  - "rules/*.yml"
+
+# ===== 抓取目标 =====
+scrape_configs:
+  # 监控 Prometheus 自己
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # 监控主机（Node Exporter）
+  - job_name: "node"
+    static_configs:
+      - targets: ["localhost:9100"]
+        labels:
+          instance: "CentOS-Stream-9"
+
+# ===== 告警推送(4.2追加) =====
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - localhost:9093

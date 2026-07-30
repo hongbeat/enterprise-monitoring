@@ -1,0 +1,19 @@
+
+module grafana-custom 1.0;
+
+require {
+	type grafana_t;
+	type proc_net_t;
+	type websm_port_t;
+	type usr_t;
+	class file { open read };
+	class dir watch;
+	class tcp_socket name_connect;
+}
+
+#============= grafana_t ==============
+allow grafana_t proc_net_t:file { open read };
+allow grafana_t usr_t:dir watch;
+
+#!!!! This avc can be allowed using the boolean 'grafana_can_tcp_connect_prometheus_port'
+allow grafana_t websm_port_t:tcp_socket name_connect;
